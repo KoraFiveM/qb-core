@@ -14,8 +14,8 @@ description 'Drop-in wrapper: resolves @qb-core/... file includes to qbcore'
 -- FiveM resolves an '@name/path' include against a REAL resource whose
 -- registered name is literally `name`. That resolution is a SEPARATE
 -- mechanism from exports and dependencies: `provide 'qb-core'` in
--- qbcore/fxmanifest.lua satisfies another resource's `dependency 'qb-core'`
--- and (with the __cfx_export_ identity hijack in qbcore/compat/*) makes
+-- kora_core/fxmanifest.lua satisfies another resource's `dependency 'qb-core'`
+-- and (with the __cfx_export_ identity hijack in kora_core/compat/*) makes
 -- exports['qb-core']:Fn() resolve -- but it does NOT make an @-import
 -- resolve. Nothing about the export identity reaches the file loader.
 --
@@ -24,11 +24,11 @@ description 'Drop-in wrapper: resolves @qb-core/... file includes to qbcore'
 -- which left `Locale` nil in every legacy consumer's VM and cascaded into
 -- "attempt to index a nil value (global 'Locale')" in their locales/*.lua.
 --
--- Same shape of shim as qbsql/stubs/{oxmysql,mysql-async} -- a real resource
+-- Same shape of shim as kora_sql/stubs/{oxmysql,mysql-async} -- a real resource
 -- ship of the file, whose contents forward to the real implementation so
 -- there is one copy to maintain. See [compat]/README.md.
 
-dependency 'qbcore'
+dependency 'kora_core'
 
 files {
     'shared/locale.lua'

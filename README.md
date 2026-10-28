@@ -24,10 +24,10 @@ they do **not** cover each other:
 | Mechanism | What satisfies it |
 |---|---|
 | `dependency 'qb-core'` | a real resource named `qb-core`, **or** any started resource with `provide 'qb-core'` |
-| `exports['qb-core']:Fn()` | whichever resource registers the `__cfx_export_qb-core_Fn` event (the identity hijack qbcore's `compat/*` uses) |
+| `exports['qb-core']:Fn()` | whichever resource registers the `__cfx_export_qb-core_Fn` event (the identity hijack kora_core's `compat/*` uses) |
 | `shared_script '@qb-core/bar.lua'` | **only** a real, started resource literally named `qb-core`, with `bar.lua` in its `files {}` block |
 
-`qbcore` already carries `provide 'qb-core'` and the export identity hijack, so
+`kora_core` already carries `provide 'qb-core'` and the export identity hijack, so
 the first two rows are covered. The third is not: an `@name/path` include is
 resolved by the *file loader*, which never consults `provide` or the export
 registry.
@@ -48,11 +48,11 @@ duplicating it:
 
 ```lua
 local chunk = LoadResourceFile('qbcore', 'shared/locale.lua')
-local fn = assert(load(chunk, '@qbcore/shared/locale.lua'))
+local fn = assert(load(chunk, '@kora_core/shared/locale.lua'))
 fn()
 ```
 
-The forward — rather than a `shared_script '@qbcore/...'` in this resource's own
+The forward — rather than a `shared_script '@kora_core/...'` in this resource's own
 manifest — is the load-bearing detail: the consumer's include runs this file **in
 the consumer's VM**, so the `Locale` global it defines lands where the consumer
 can see it. A `shared_script` in this manifest would instead run it in *this*
@@ -60,11 +60,11 @@ resource's VM, where nothing needs it.
 
 ## Install
 
-Place in `resources/[compat]/` and ensure it **after** `qbcore` (its
+Place in `resources/[compat]/` and ensure it **after** `kora_core` (its
 `LoadResourceFile` target must already exist) and **before** any legacy consumer:
 
 ```cfg
-ensure qbcore
+ensure kora_core
 ensure qb-core
 ensure qb-banking
 ```
